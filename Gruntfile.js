@@ -37,16 +37,29 @@ module.exports = function(grunt) {
           'tmp/default_options': ['test/fixtures/testing.txt', 'test/fixtures/image.png', 'test/fixtures/sounds/test.mp3']
         }
       },
-      custom_options: {
-        options: {
-          itemFormat: '"%s" : "%s",',
-          fileHeader: 'angular.module("testModule").factory([function(){return {',
-          fileFooter: '"_":null};}]);'
+        custom_options: {
+            options: {
+                itemFormat: '"%s" : "%s",',
+                fileHeader: 'angular.module("testModule").factory([function(){return {',
+                fileFooter: '"_":null};}]);'
+            },
+            files: {
+                'tmp/custom_options': ['test/fixtures/testing.txt', 'test/fixtures/image.png', 'test/fixtures/sounds/test.mp3']
+            }
         },
-        files: {
-          'tmp/custom_options': ['test/fixtures/testing.txt', 'test/fixtures/image.png', 'test/fixtures/sounds/test.mp3']
+        custom_options_u: {
+            options: {
+                itemFormat: '"%s" : "%s",',
+                fileHeader: 'angular.module("testModule").factory([function(){return {',
+                fileFooter: '"_":null};}]);'
+            },
+            files: [
+            {
+                cwd: '.',
+                dest: 'tmp/custom_options_u',
+                src: ['test/fixtures/**/*']
+            }]
         }
-      }
     },
 
     // Unit tests.

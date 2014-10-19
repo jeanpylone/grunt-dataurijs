@@ -27,9 +27,9 @@ module.exports = function(grunt) {
       fileFooter: ''
     });
 
-    // Iterate over all specified file groups.
+      // Iterate over all specified file groups.
     this.files.forEach(function(f) {
-      // Concat specified files.
+        // Concat specified files.
       var src = options.fileHeader + f.src.filter(function(filepath) {
         // Warn on and remove invalid source files (if nonull was set).
         if (!grunt.file.exists(filepath)) {
@@ -39,9 +39,14 @@ module.exports = function(grunt) {
           return true;
         }
       }).map(function(filepath) {
+          if (grunt.file.isDir(filepath)) {
+              return;
+          }
           var dUri    = new Datauri(filepath);
           return util.format(options.itemFormat, options.itemVariableFormat(filepath), dUri.content);
-      }).join(grunt.util.normalizelf('\n')) + options.fileFooter;
+      })
+          .filter(function(item){return !!item;})
+          .join(grunt.util.normalizelf('\n')) + options.fileFooter;
 
       // Write the destination file.
       grunt.file.write(f.dest, src);
