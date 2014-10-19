@@ -37,46 +37,61 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
+#### options.itemFormat
 Type: `String`
-Default value: `',  '`
+Default value: `'var %s = "%s";'`
 
-A string value that is used to do something with whatever.
+A string value that provides the format to render for each file's base64 content.
+First replace token is the identifier given by options.itemVariableFormat.
+Second replace token is the file's base64 content.
 
-#### options.punctuation
+#### options.itemVariableFormat
+Type: `Function`
+Default value: `function(item){
+                          return path.basename(item, path.extname(item)).replace(/[^a-z0-9]/ig, "_");
+                      }`
+
+A function that gives a unique name to each file's base64 content.
+
+#### options.fileHeader
 Type: `String`
-Default value: `'.'`
+Default value: `''`
 
-A string value that is used to do something else with whatever else.
+A text that is used as file header.
+
+#### options.fileFooter
+Type: `String`
+Default value: `''`
+
+A text that is used as file footer.
 
 ### Usage Examples
 
 #### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
 
 ```js
 grunt.initConfig({
   dataurijs: {
     options: {},
     files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+      'dest/default_options': ['test/fixtures/testing.txt', 'test/fixtures/image.png', 'test/fixtures/sounds/test.mp3'],
     },
   },
 });
 ```
 
 #### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
 
 ```js
 grunt.initConfig({
   dataurijs: {
     options: {
-      separator: ': ',
-      punctuation: ' !!!',
+      itemFormat: '"%s" : "%s",',
+      fileHeader: 'angular.module("testModule").factory([function(){return {',
+      fileFooter: '"_":null};}]);'
     },
     files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+      'dest/custom_options': ['test/fixtures/testing.txt', 'test/fixtures/image.png', 'test/fixtures/sounds/test.mp3'],
     },
   },
 });
@@ -86,4 +101,4 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-_(Nothing yet)_
+0.1.0 - initial release

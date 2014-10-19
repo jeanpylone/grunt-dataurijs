@@ -34,16 +34,17 @@ module.exports = function(grunt) {
         options: {
         },
         files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123']
+          'tmp/default_options': ['test/fixtures/testing.txt', 'test/fixtures/image.png', 'test/fixtures/sounds/test.mp3']
         }
       },
       custom_options: {
         options: {
-          separator: ': ',
-          punctuation: ' !!!'
+          itemFormat: '"%s" : "%s",',
+          fileHeader: 'angular.module("testModule").factory([function(){return {',
+          fileFooter: '"_":null};}]);'
         },
         files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123']
+          'tmp/custom_options': ['test/fixtures/testing.txt', 'test/fixtures/image.png', 'test/fixtures/sounds/test.mp3']
         }
       }
     },
