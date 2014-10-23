@@ -53,5 +53,21 @@ exports.dataurijs = {
         test.equal(actual, expected, 'should describe what the custom option(s) behavior is.');
 
         test.done();
+    },
+    destdir: function(test){
+        test.expect(3);
+        var actual = grunt.file.read('tmp/image.js');
+        var expected = grunt.file.read('test/expected/image.js');
+        test.equal(actual, expected, 'should describe what the custom option(s) behavior is.');
+
+        actual = grunt.file.read('tmp/test.js');
+        expected = grunt.file.read('test/expected/test.js');
+        test.equal(actual, expected, 'should describe what the custom option(s) behavior is.');
+
+        actual = grunt.file.read('tmp/testing.js');
+        expected = grunt.file.read('test/expected/testing.js');
+        test.equal(actual, expected, 'should describe what the custom option(s) behavior is.');
+
+        test.done();
     }
 };

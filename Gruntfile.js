@@ -50,15 +50,26 @@ module.exports = function(grunt) {
         custom_options_u: {
             options: {
                 itemFormat: '"%s" : "%s",',
-                fileHeader: 'angular.module("testModule").factory([function(){return {',
+                fileHeader: 'angular.module("testModule").factory("test", [function(){return {',
                 fileFooter: '"_":null};}]);'
             },
             files: [
-            {
-                cwd: '.',
-                dest: 'tmp/custom_options_u',
-                src: ['test/fixtures/**/*']
-            }]
+                {
+                    cwd: '.',
+                    dest: 'tmp/custom_options_u',
+                    src: ['test/fixtures/**/*']
+                }]
+        },
+        destdir: {
+            options: {
+                itemFormat: '%s = "%s";'
+            },
+            files: [
+                {
+                    cwd: '.',
+                    dest: 'tmp/',
+                    src: ['test/fixtures/**/*']
+                }]
         }
     },
 

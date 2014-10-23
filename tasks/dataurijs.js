@@ -30,7 +30,7 @@ module.exports = function(grunt) {
       // Iterate over all specified file groups.
     this.files.forEach(function(f) {
         // Concat specified files.
-      var src = options.fileHeader + f.src.filter(function(filepath) {
+      var src = f.src.filter(function(filepath) {
         // Warn on and remove invalid source files (if nonull was set).
         if (!grunt.file.exists(filepath)) {
           grunt.log.warn('Source file "' + filepath + '" not found.');
@@ -40,19 +40,30 @@ module.exports = function(grunt) {
         }
       }).map(function(filepath) {
           if (grunt.file.isDir(filepath)) {
-              return;
+              return null;
           }
           var dUri    = new Datauri(filepath);
-          return util.format(options.itemFormat, options.itemVariableFormat(filepath), dUri.content);
+          return {
+              id: options.itemVariableFormat(filepath),
+              content: util.format(options.itemFormat, options.itemVariableFormat(filepath), dUri.content)
+          };
       })
-          .filter(function(item){return !!item;})
-          .join(grunt.util.normalizelf('\n')) + options.fileFooter;
+          .filter(function(item){return !!item;});
 
-      // Write the destination file.
-      grunt.file.write(f.dest, src);
+        if (grunt.file.isDir(f.dest)){
+            src.forEach(function(s){
+                grunt.log.writeln(f.dest + ' ' + s.id);
+                var file = path.join(f.dest, s.id +".js");
+                grunt.file.write(file, options.fileHeader + s.content + options.fileFooter);
+                grunt.log.writeln('File "' + f.dest + '" created.');
+            });
+        }
+        else {
+            grunt.file.write(f.dest, options.fileHeader + src.map(function(item){return item.content;}).join(grunt.util.normalizelf('\n')) + options.fileFooter);
 
-      // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
+            // Print a success message.
+            grunt.log.writeln('File "' + f.dest + '" created.');
+        }
     });
   });
 };
