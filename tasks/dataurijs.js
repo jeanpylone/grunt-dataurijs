@@ -50,7 +50,8 @@ module.exports = function(grunt) {
       })
           .filter(function(item){return !!item;});
 
-        if (grunt.file.isDir(f.dest)){
+        if (grunt.file.isDir(f.dest) || f.dest.substr(-1) === "/"){
+            grunt.file.mkdir(f.dest);
             src.forEach(function(s){
                 grunt.log.writeln(f.dest + ' ' + s.id);
                 var file = path.join(f.dest, s.id +".js");
